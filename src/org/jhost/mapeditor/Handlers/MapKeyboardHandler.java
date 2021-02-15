@@ -21,13 +21,16 @@ public class MapKeyboardHandler implements KeyboardHandler {
     private KeyboardEvent space;
     private KeyboardEvent spaceX;
 
+    private KeyboardEvent s;
+    private KeyboardEvent l;
+    private KeyboardEvent c;
+
     /**Cursor*/
     private Cursor cursor;
 
     private Canvas canvas;
 
     public MapKeyboardHandler(Canvas canvas){
-        System.out.println("Keyboard handler instantiated");
         init(canvas);
     }
 
@@ -48,6 +51,10 @@ public class MapKeyboardHandler implements KeyboardHandler {
 
         this.space = new KeyboardEvent();
         this.spaceX = new KeyboardEvent();
+
+        this.s = new KeyboardEvent();
+        this.l = new KeyboardEvent();
+        this.c = new KeyboardEvent();
     }
 
     private void setKeys(){
@@ -58,6 +65,10 @@ public class MapKeyboardHandler implements KeyboardHandler {
 
         this.space.setKey(KeyboardEvent.KEY_SPACE);
         this.spaceX.setKey(KeyboardEvent.KEY_SPACE);
+
+        this.s.setKey(KeyboardEvent.KEY_S);
+        this.l.setKey(KeyboardEvent.KEY_L);
+        this.c.setKey(KeyboardEvent.KEY_C);
     }
 
     private void setKeyboardEventType(){
@@ -69,6 +80,9 @@ public class MapKeyboardHandler implements KeyboardHandler {
 
         this.space.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+        this.s.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        this.l.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        this.c.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         /**RELEASED*/
         this.spaceX.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
@@ -82,6 +96,10 @@ public class MapKeyboardHandler implements KeyboardHandler {
 
         this.keyboard.addEventListener(space);
         this.keyboard.addEventListener(spaceX);
+
+        this.keyboard.addEventListener(s);
+        this.keyboard.addEventListener(l);
+        this.keyboard.addEventListener(c);
     }
 
     @Override
@@ -107,6 +125,15 @@ public class MapKeyboardHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_SPACE:
                 canvas.setPainting(true);
+                break;
+            case KeyboardEvent.KEY_S:
+                canvas.save();
+                break;
+            case KeyboardEvent.KEY_L:
+                canvas.load();
+                break;
+            case KeyboardEvent.KEY_C:
+                canvas.clear();
                 break;
         }
 

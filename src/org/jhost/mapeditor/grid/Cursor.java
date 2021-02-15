@@ -1,6 +1,7 @@
 package org.jhost.mapeditor.grid;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.jhost.mapeditor.Translator.CellColor;
 
 public class Cursor extends Cell{
 
@@ -15,7 +16,7 @@ public class Cursor extends Cell{
     }
 
     public void move(){
-        canvas.paint(getColl(), getRow(), Color.BLACK);
+        canvas.paint(getColl(), getRow(), CellColor.BLACK);
         switch (direction){
             case UP:
                 if (getRow() > 0){

@@ -7,10 +7,6 @@ public class SaveFile {
     private BufferedReader breader;
     private BufferedWriter bwriter;
 
-    public SaveFile() {
-
-    }
-
     public String load(String path) {
         String result = "";
         try {
@@ -30,6 +26,7 @@ public class SaveFile {
             bwriter = new BufferedWriter(new FileWriter(path));
             bwriter.write(s.trim());
             bwriter.close();
+            System.out.println("saved in " + path);
         } catch (IOException e){
             e.getMessage();
         }

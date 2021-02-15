@@ -2,6 +2,7 @@ package org.jhost.mapeditor.grid;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.jhost.mapeditor.Translator.CellColor;
 
 public class Cell implements Grid{
 
@@ -10,13 +11,14 @@ public class Cell implements Grid{
     private int size;
 
     protected Rectangle cell;
+    private CellColor color;
 
     public Cell(int row, int coll, int size){
         this.coll = coll;
         this.row = row;
         this.size = size;
         cell = new Rectangle(collToX(coll), rowToY(row), size, size);
-        cell.setColor(Color.BLACK);
+        setColor(CellColor.BLACK);
     }
 
     public void draw(){
@@ -29,17 +31,13 @@ public class Cell implements Grid{
     }
 
 
-    public void paint(Color color){
-        if(cell.getColor() == color && cell.isFilled()){
-            System.out.println("Unpainting");
-            cell.delete();
+    public void paint(CellColor color){
+        if(this.color.equals(color) && cell.isFilled()){
             cell.setColor(Color.BLACK);
             cell.draw();
             return;
         }
-        System.out.println("Painting");
-        cell.delete();
-        cell.setColor(color);
+        setColor(color);
         cell.fill();
     }
     
@@ -64,6 +62,19 @@ public class Cell implements Grid{
         return x / size - Canvas.PADDING;
     }
 
+    public void setColor(CellColor color){
+        this.color = color;
+        cell.setColor(color.getColor());
+    }
+
+    public CellColor getColor(){
+        return this.color;
+    }
+
+    public int getColorCode(){
+        return cell.isFilled() ? this.color.getColorCode() : 0;
+    }
+
     public int getSize() {
         return size;
     }
@@ -80,6 +91,10 @@ public class Cell implements Grid{
         return row;
     }
 
+    public boolean isFilled(){
+        return cell.isFilled();
+    }
+
     public void setRow(int row) {
         this.row = row;
     }
@@ -87,4 +102,5 @@ public class Cell implements Grid{
     public void setSize(int size) {
         this.size = size;
     }
+
 }
