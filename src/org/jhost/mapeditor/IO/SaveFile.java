@@ -3,7 +3,7 @@ package org.jhost.mapeditor.IO;
 import java.io.*;
 
 public class SaveFile {
-    private static final String NEWLINE = "\n\r";
+    private static final String NEWLINE = "\n";
     private BufferedReader breader;
     private BufferedWriter bwriter;
 
@@ -28,7 +28,7 @@ public class SaveFile {
     public void save(String path, String s){
         try {
             bwriter = new BufferedWriter(new FileWriter(path));
-            bwriter.write(s);
+            bwriter.write(s.trim());
             bwriter.close();
         } catch (IOException e){
             e.getMessage();
