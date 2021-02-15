@@ -1,12 +1,11 @@
 package org.jhost.mapeditor.IO;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class SaveFile {
+    private static final String NEWLINE = "\n\r";
     private BufferedReader breader;
+    private BufferedWriter bwriter;
 
     public SaveFile() {
 
@@ -16,21 +15,30 @@ public class SaveFile {
         String result = "";
         try {
             this.breader = new BufferedReader(new FileReader(path));
-            result = doLoad();
-        } catch (
-                FileNotFoundException e) {
+            result = readFile();
+            breader.close();
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-        } finally {
-            try{
-                breader.close();
-            } catch (IOException e){
-
-            }
+        } catch (IOException e){
+            System.out.println(e.getMessage());
         }
         return result;
     }
 
-    private String doLoad(){
-        return breader.lines().reduce("", (acc, word) -> acc + word + "\n\r");
+    public void save(String path, String s){
+        try {
+            bwriter = new BufferedWriter(new FileWriter(path));
+            bwriter.write(s);
+            bwriter.close();
+        } catch (IOException e){
+            e.getMessage();
+        }
+    }
+
+
+    //To be fixed
+    private String readFile(){
+        return breader.lines()
+                .reduce("", (acc, line) -> !line.equals("\\s") ? acc + line + NEWLINE : acc);
     }
 }

@@ -4,7 +4,10 @@ import org.jhost.mapeditor.IO.SaveFile;
 
 public class App {
     public static void main(String[] args) {
+        String testFilePath = "resources/test.txt";
         SaveFile file = new SaveFile();
-        System.out.println(file.load("resources/test.txt"));
+        String test = file.load(testFilePath);
+        System.out.println(test);
+        file.save("resources/test.txt", test);
     }
 }
