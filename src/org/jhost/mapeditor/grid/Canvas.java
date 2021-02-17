@@ -7,12 +7,19 @@ import org.jhost.mapeditor.IO.SaveFile;
 import org.jhost.mapeditor.Translator.CellColor;
 import org.jhost.mapeditor.Translator.Translator;
 
+import java.util.Arrays;
+
 public class Canvas{
     public static final int PADDING = 10;
 
     private int cellSize;
     private int colls;
     private int rows;
+
+    //Load/draw variables
+    private int x;
+    private int y;
+    private int count;
 
     //The grid
     private Cell[][] cells;
@@ -38,16 +45,22 @@ public class Canvas{
         this.painting = false;
         this.saveFile = new SaveFile();
         this.savePath = "saves/save.txt";
+        this.x = -1;
+        this.y = -1;
+        this.count = -1;
     }
 
     //To fix
     public void draw(){
-        for (int i = 0; i < colls; i++) {
-            for (int j = 0; j < rows; j++) {
-                cells[i][j] = new Cell(i, j, cellSize);
-                cells[i][j].draw();
-            }
-        }
+        Arrays.stream(cells)
+                .forEach(a -> {
+                    x++;
+                    y=-1;
+                    Arrays.stream(a)
+                        .forEach(c -> {
+                            y++;
+                            cells[x][y] = new Cell(x, y, cellSize);});});
+        Arrays.stream(cells).forEach(a -> Arrays.stream(a).forEach(Cell::draw));
         drawCursor();
     }
 
@@ -79,24 +92,29 @@ public class Canvas{
 
     public void load(){
         String s = saveFile.load(savePath);
+        s = Arrays.stream(s.trim().replaceAll("\n", "").split(""))
+                .reduce("", (acc, word) -> acc + word);
         String[] sArr = s.split("");
-        s.replaceAll("\\s", "");
-        int x = 0;
-        int y = 0;
-        for (int i = 0; i < sArr.length; i++) {
-            if(x > cells.length){
-                x++;
-                continue;
-            }
-            System.out.println(s.charAt(i));
-            if (s.charAt(i) != 0){
-                cells[x][y].paint(Translator.getCellColorByChar(Integer.parseInt(sArr[i])));
-            }
-        }
+        x = -1;
+        count= -1;
+        Arrays.stream(cells)
+                .forEach(a -> {
+                    x++;
+                    y=-1;
+                    Arrays.stream(a)
+                            .forEach(c -> {
+                                y++;
+                                count++;
+                                if (sArr[count].equals("0")) {
+                                    cells[x][y].delete();
+                                } else {
+                                    cells[x][y].paint(Translator.getCellColorByChar(sArr[count]));
+                                }
+                            });});
     }
 
     public void clear(){
-
+        Arrays.stream(cells).forEach(a -> Arrays.stream(a).forEach(Cell::delete));
     }
 
     public boolean isPainting() {

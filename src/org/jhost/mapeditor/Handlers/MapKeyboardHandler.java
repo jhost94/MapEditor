@@ -10,6 +10,10 @@ import org.jhost.mapeditor.grid.Direction;
 
 public class MapKeyboardHandler implements KeyboardHandler {
 
+    /** ADDITIONAL KEYS*/
+    public static final int TAB = 9;
+
+    /** KEYBOARD */
     private Keyboard keyboard;
 
     /** Keys */
@@ -24,6 +28,9 @@ public class MapKeyboardHandler implements KeyboardHandler {
     private KeyboardEvent s;
     private KeyboardEvent l;
     private KeyboardEvent c;
+    private KeyboardEvent x;
+
+    private KeyboardEvent tab;
 
     /**Cursor*/
     private Cursor cursor;
@@ -55,6 +62,9 @@ public class MapKeyboardHandler implements KeyboardHandler {
         this.s = new KeyboardEvent();
         this.l = new KeyboardEvent();
         this.c = new KeyboardEvent();
+        this.x = new KeyboardEvent();
+
+        this.tab = new KeyboardEvent();
     }
 
     private void setKeys(){
@@ -69,6 +79,10 @@ public class MapKeyboardHandler implements KeyboardHandler {
         this.s.setKey(KeyboardEvent.KEY_S);
         this.l.setKey(KeyboardEvent.KEY_L);
         this.c.setKey(KeyboardEvent.KEY_C);
+        this.x.setKey(KeyboardEvent.KEY_X);
+
+        //this.tab.setKey(TAB);
+        this.tab.setKey(KeyboardEvent.KEY_Z);
     }
 
     private void setKeyboardEventType(){
@@ -83,6 +97,9 @@ public class MapKeyboardHandler implements KeyboardHandler {
         this.s.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         this.l.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         this.c.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        this.x.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        this.tab.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         /**RELEASED*/
         this.spaceX.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
@@ -100,11 +117,15 @@ public class MapKeyboardHandler implements KeyboardHandler {
         this.keyboard.addEventListener(s);
         this.keyboard.addEventListener(l);
         this.keyboard.addEventListener(c);
+        this.keyboard.addEventListener(x);
+
+        this.keyboard.addEventListener(tab);
     }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         //TO BE FIXED
+        System.out.printf("key pressed: " + keyboardEvent.getKey());
 
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_UP:
@@ -134,6 +155,12 @@ public class MapKeyboardHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_C:
                 canvas.clear();
+                break;
+            case KeyboardEvent.KEY_X:
+                System.exit(0);
+                break;
+            case KeyboardEvent.KEY_Z:
+                cursor.rotateColor();
                 break;
         }
 

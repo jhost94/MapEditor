@@ -28,7 +28,7 @@ public class SaveFile {
             bwriter.close();
             System.out.println("saved in " + path);
         } catch (IOException e){
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
 

@@ -33,12 +33,16 @@ public class Cell implements Grid{
 
     public void paint(CellColor color){
         if(this.color.equals(color) && cell.isFilled()){
-            cell.setColor(Color.BLACK);
-            cell.draw();
+            delete();
             return;
         }
         setColor(color);
         cell.fill();
+    }
+
+    public void delete(){
+        cell.setColor(Color.BLACK);
+        cell.draw();
     }
     
 
@@ -71,8 +75,8 @@ public class Cell implements Grid{
         return this.color;
     }
 
-    public int getColorCode(){
-        return cell.isFilled() ? this.color.getColorCode() : 0;
+    public String getColorCode(){
+        return cell.isFilled() ? this.color.getColorCode() : "0";
     }
 
     public int getSize() {

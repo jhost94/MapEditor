@@ -3,20 +3,24 @@ package org.jhost.mapeditor.grid;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.jhost.mapeditor.Translator.CellColor;
 
+import java.util.Arrays;
+
 public class Cursor extends Cell{
 
     private Canvas canvas;
     private boolean moving;
     private Direction direction;
+    private CellColor colorToPaint;
 
     public Cursor(int size, Color color, Canvas canvas) {
         super(0, 0, size);
         super.fillColor(color);
         this.canvas = canvas;
+        this.colorToPaint = CellColor.BLACK;
     }
 
     public void move(){
-        canvas.paint(getColl(), getRow(), CellColor.BLACK);
+        canvas.paint(getColl(), getRow(), colorToPaint);
         switch (direction){
             case UP:
                 if (getRow() > 0){
@@ -44,6 +48,12 @@ public class Cursor extends Cell{
         }
     }
 
+    public void rotateColor(){
+        int colorOrdinal = Arrays.stream(CellColor.values())
+                .filter(c -> c.equals(colorToPaint)).findFirst().get().ordinal() + 1;
+        colorToPaint= colorOrdinal >= CellColor.values().length ?
+                CellColor.BLACK : CellColor.values()[colorOrdinal];
+    }
 
     public boolean isMoving() {
         return moving;
