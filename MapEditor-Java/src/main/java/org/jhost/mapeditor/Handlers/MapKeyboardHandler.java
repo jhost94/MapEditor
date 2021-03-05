@@ -161,6 +161,7 @@ public class MapKeyboardHandler implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_Z:
                 cursor.rotateColor();
+                canvas.getMenu().changeColor(cursor.getColorToPaint());
                 break;
         }
 

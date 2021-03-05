@@ -23,6 +23,8 @@ public class Canvas{
 
     //The grid
     private Cell[][] cells;
+    private Menu menu;
+    private int menuSize;
     private Cursor cursor;
     private boolean painting;
 
@@ -41,7 +43,9 @@ public class Canvas{
         this.cellSize = cellSize;
         this.colls = width;
         this.rows = height;
-        this.cells = new Cell[colls][rows];
+        this.cells = new Cell[rows][colls];
+        this.menuSize = cellSize * 3;
+        this.menu = new Menu(menuSize, CellColor.BLACK);
         this.painting = false;
         this.saveFile = new SaveFile();
         this.savePath = "saves/save.txt";
@@ -52,18 +56,29 @@ public class Canvas{
 
     //To fix
     public void draw(){
+        drawMenu();
+        drawCanvas();
+
+        menu.changeColor(cursor.getColorToPaint());
+    }
+
+
+    private void drawCanvas(){
         Arrays.stream(cells)
                 .forEach(a -> {
                     x++;
                     y=-1;
                     Arrays.stream(a)
-                        .forEach(c -> {
-                            y++;
-                            cells[x][y] = new Cell(x, y, cellSize);});});
+                            .forEach(c -> {
+                                y++;
+                                cells[x][y] = new Cell(x + menu.xToColl(menuSize) + 1, y, cellSize);});});
         Arrays.stream(cells).forEach(a -> Arrays.stream(a).forEach(Cell::draw));
         drawCursor();
     }
 
+    private void drawMenu(){
+        menu.draw();
+    }
 
     private void drawCursor(){
         keyboardHandler = new MapKeyboardHandler(this);
@@ -72,6 +87,7 @@ public class Canvas{
     }
 
     public void paint(int col, int row, CellColor color){
+        row -= 4;
         if(painting){
             cells[row][col].paint(color);
         }
@@ -121,16 +137,19 @@ public class Canvas{
         return painting;
     }
 
-    public void setPainting(boolean painting) {
-        this.painting = painting;
-    }
-
-
     public int getColls() {
         return colls;
     }
 
     public int getRows() {
         return rows;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setPainting(boolean painting) {
+        this.painting = painting;
     }
 }

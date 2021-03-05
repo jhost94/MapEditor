@@ -13,7 +13,8 @@ public class Cursor extends Cell{
     private CellColor colorToPaint;
 
     public Cursor(int size, Color color, Canvas canvas) {
-        super(0, 0, size);
+        //test
+        super(4, 0, size);
         super.fillColor(color);
         this.canvas = canvas;
         this.colorToPaint = CellColor.BLACK;
@@ -23,13 +24,15 @@ public class Cursor extends Cell{
         canvas.paint(getColl(), getRow(), colorToPaint);
         switch (direction){
             case UP:
-                if (getRow() > 0){
+                //test
+                if (getRow() > 4){
                     setRow(getRow() - 1);
                     cell.translate(0, -getSize());
                 }
                 break;
             case DOWN:
-                if (getRow() < canvas.getRows() - 1){
+                //test
+                if (getRow() < canvas.getRows() + 3){
                     setRow(getRow() + 1);
                     cell.translate(0, getSize());
                 }
@@ -59,12 +62,16 @@ public class Cursor extends Cell{
         return moving;
     }
 
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
-
     public Direction getDirection() {
         return direction;
+    }
+
+    public CellColor getColorToPaint() {
+        return colorToPaint;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 
     public void setDirection(Direction direction) {
